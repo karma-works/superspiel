@@ -1,0 +1,12 @@
+export const TILE_SIZE = 16
+export const GRAVITY = 1800
+export const PLAYER_SPEED = 160
+export const PLAYER_JUMP_VELOCITY = -550
+export const FIREBALL_SPEED = 320
+export const FRIEND_OFFSET_X = -36
+export const FRIEND_OFFSET_Y = 4
+export const RESPAWN_DELAY_MS = 700
+export const DROWNING_TIME_MS = 3000
+export const COIN_VALUE = 10
+export const TREASURE_VALUE = 100
+export const ENEMY_KILL_VALUE = 50
