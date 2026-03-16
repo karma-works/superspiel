@@ -936,3 +936,284 @@ export function drawEnemyProjectile(): ex.Canvas {
     ctx.fill()
   })
 }
+
+export function drawPlayerSkate(facing: 'left' | 'right'): ex.Canvas {
+  return makeCanvas(16, 24, (ctx) => {
+    // Horns
+    ctx.fillStyle = DRH
+    ctx.fillRect(5, 0, 2, 4)
+    ctx.fillRect(10, 0, 2, 4)
+
+    // Head (same as walk)
+    ctx.fillStyle = DR
+    ctx.fillRect(4, 3, 9, 7)
+    ctx.fillRect(3, 4, 11, 5)
+    ctx.fillRect(13, 5, 3, 4)
+    ctx.fillStyle = DRP
+    ctx.fillRect(13, 7, 3, 2)
+    ctx.fillStyle = DRD
+    ctx.fillRect(14, 6, 1, 1)
+
+    // Eye
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(9, 4, 4, 4)
+    ctx.fillStyle = '#111'
+    ctx.fillRect(10, 5, 2, 2)
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(10, 5, 1, 1)
+
+    // Wing stub
+    ctx.fillStyle = DRW
+    ctx.fillRect(1, 8, 2, 2)
+    ctx.fillRect(0, 10, 3, 6)
+
+    // Body
+    ctx.fillStyle = DR
+    ctx.fillRect(3, 10, 10, 10)
+    ctx.fillRect(2, 11, 12, 7)
+
+    // Belly
+    ctx.fillStyle = DRP
+    ctx.fillRect(5, 12, 6, 7)
+
+    // Tail
+    ctx.fillStyle = DRD
+    ctx.fillRect(0, 15, 4, 3)
+    ctx.fillRect(0, 18, 3, 2)
+    ctx.fillRect(0, 20, 2, 2)
+
+    // Legs — wide skating stance (both extended, one forward one back)
+    ctx.fillStyle = DR
+    ctx.fillRect(2, 18, 4, 4)   // back leg
+    ctx.fillRect(10, 18, 4, 4)  // front leg
+
+    // Skate blades (silver, extend past feet)
+    ctx.fillStyle = '#d1d5db'
+    ctx.fillRect(1, 22, 6, 1)
+    ctx.fillRect(9, 22, 6, 1)
+    ctx.fillStyle = '#f0f9ff'  // blade shine
+    ctx.fillRect(2, 22, 3, 1)
+    ctx.fillRect(10, 22, 3, 1)
+
+    // Claws still visible above blade
+    ctx.fillStyle = DRH
+    ctx.fillRect(3, 21, 2, 1)
+    ctx.fillRect(6, 21, 2, 1)
+    ctx.fillRect(9, 21, 2, 1)
+    ctx.fillRect(12, 21, 2, 1)
+
+    if (facing === 'left') flipH(ctx, 16, 24)
+  })
+}
+
+export function drawFoxSkate(facing: 'left' | 'right'): ex.Canvas {
+  return makeCanvas(16, 20, (ctx) => {
+    // Body
+    ctx.fillStyle = '#ff8c00'
+    ctx.fillRect(2, 6, 12, 12)
+
+    // Head
+    ctx.fillStyle = '#ff8c00'
+    ctx.fillRect(3, 0, 10, 9)
+
+    // Ears
+    ctx.fillRect(3, 0, 3, 4)
+    ctx.fillRect(10, 0, 3, 4)
+    ctx.fillStyle = '#ff5500'
+    ctx.fillRect(4, 0, 1, 2)
+    ctx.fillRect(11, 0, 1, 2)
+
+    // White belly
+    ctx.fillStyle = '#fff8f0'
+    ctx.fillRect(5, 10, 6, 6)
+
+    // Eyes
+    ctx.fillStyle = '#222'
+    ctx.fillRect(5, 2, 2, 3)
+    ctx.fillRect(9, 2, 2, 3)
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(6, 2, 1, 1)
+    ctx.fillRect(10, 2, 1, 1)
+
+    // Nose
+    ctx.fillStyle = '#ff3300'
+    ctx.fillRect(7, 6, 2, 2)
+
+    // Tail
+    ctx.fillStyle = '#ff8c00'
+    if (facing === 'right') {
+      ctx.fillRect(0, 8, 3, 8)
+      ctx.fillStyle = '#fff8f0'
+      ctx.fillRect(0, 14, 3, 2)
+    } else {
+      ctx.fillRect(13, 8, 3, 8)
+      ctx.fillStyle = '#fff8f0'
+      ctx.fillRect(13, 14, 3, 2)
+    }
+
+    // Legs — wide skating stance
+    ctx.fillStyle = '#cc6600'
+    ctx.fillRect(2, 15, 3, 3)
+    ctx.fillRect(11, 15, 3, 3)
+
+    // Skate blades
+    ctx.fillStyle = '#d1d5db'
+    ctx.fillRect(1, 18, 5, 1)
+    ctx.fillRect(10, 18, 5, 1)
+    ctx.fillStyle = '#f0f9ff'
+    ctx.fillRect(2, 18, 2, 1)
+    ctx.fillRect(11, 18, 2, 1)
+
+    if (facing === 'left') {
+      const imgData = ctx.getImageData(0, 0, 16, 20)
+      const flipped = ctx.createImageData(16, 20)
+      for (let y = 0; y < 20; y++) {
+        for (let x = 0; x < 16; x++) {
+          const src = (y * 16 + x) * 4
+          const dst = (y * 16 + (15 - x)) * 4
+          flipped.data[dst]     = imgData.data[src]
+          flipped.data[dst + 1] = imgData.data[src + 1]
+          flipped.data[dst + 2] = imgData.data[src + 2]
+          flipped.data[dst + 3] = imgData.data[src + 3]
+        }
+      }
+      ctx.putImageData(flipped, 0, 0)
+    }
+  })
+}
+
+export function drawAirplane(): ex.Canvas {
+  return makeCanvas(56, 24, (ctx) => {
+    // Right-facing: nose at right, tail at left
+    const BODY  = '#f59e0b'
+    const DARK  = '#b45309'
+    const WING  = '#fbbf24'
+    const WIN   = '#bae6fd'
+
+    // Tail fin (vertical stabilizer at left end)
+    ctx.fillStyle = BODY
+    ctx.fillRect(2, 2, 5, 8)
+    ctx.fillRect(0, 6, 8, 5)
+
+    // Fuselage body
+    ctx.fillStyle = BODY
+    ctx.fillRect(4, 7, 44, 10)
+
+    // Nose taper
+    ctx.fillRect(46, 8, 6, 8)
+    ctx.fillRect(50, 9, 5, 6)
+    ctx.fillRect(53, 10, 3, 4)
+
+    // Top edge stripe
+    ctx.fillStyle = DARK
+    ctx.fillRect(4, 7, 50, 1)
+    ctx.fillRect(4, 16, 50, 1)
+
+    // Main wing (sweeps over top of fuselage)
+    ctx.fillStyle = WING
+    ctx.fillRect(12, 1, 26, 6)    // wing span
+    ctx.fillRect(10, 2, 30, 5)    // wider mid section
+
+    // Wing tip shading
+    ctx.fillStyle = DARK
+    ctx.fillRect(10, 1, 32, 1)    // top edge of wing
+
+    // Cockpit window
+    ctx.fillStyle = WIN
+    ctx.fillRect(22, 3, 13, 6)
+    ctx.fillRect(21, 4, 15, 5)
+
+    // Cockpit frame
+    ctx.fillStyle = DARK
+    ctx.fillRect(21, 3, 15, 1)    // top
+    ctx.fillRect(21, 8, 15, 1)    // bottom
+    ctx.fillRect(21, 3, 1, 6)     // left post
+    ctx.fillRect(35, 3, 1, 6)     // right post
+
+    // Window shine
+    ctx.fillStyle = 'rgba(255,255,255,0.55)'
+    ctx.fillRect(23, 4, 5, 3)
+
+    // Propeller (right end, spinning blades shown as cross)
+    ctx.fillStyle = '#9ca3af'
+    ctx.fillRect(53, 5, 2, 14)    // vertical blade
+    ctx.fillRect(49, 11, 8, 2)    // horizontal blade (offset)
+
+    // Propeller hub
+    ctx.fillStyle = '#6b7280'
+    ctx.fillRect(52, 10, 4, 4)
+
+    // Belly fin (small)
+    ctx.fillStyle = BODY
+    ctx.fillRect(16, 17, 12, 5)
+    ctx.fillRect(18, 20, 8, 4)
+
+    // Rivet detail
+    ctx.fillStyle = DARK
+    ctx.fillRect(8, 11, 2, 2)
+    ctx.fillRect(44, 11, 2, 2)
+  })
+}
+
+export function drawPenguin(facing: 'left' | 'right', frame: number): ex.Canvas {
+  return makeCanvas(28, 28, (ctx) => {
+    // Always draw right-facing; flip at end for left.
+
+    // ── Body (dark navy-black) ────────────────────────────────────────────────
+    ctx.fillStyle = '#1a1a2e'
+    ctx.fillRect(5, 9, 18, 17)    // main torso
+    ctx.fillRect(3, 11, 22, 13)   // wider middle
+    ctx.fillRect(6, 7, 16, 4)     // lower neck
+
+    // ── Head ─────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#1a1a2e'
+    ctx.fillRect(6, 0, 16, 9)
+    ctx.fillRect(5, 1, 18, 7)
+
+    // ── White face patch ─────────────────────────────────────────────────────
+    ctx.fillStyle = '#f8fafc'
+    ctx.fillRect(9, 2, 9, 6)
+    ctx.fillRect(8, 3, 11, 4)
+
+    // ── Eye (right side of head for right-facing) ────────────────────────────
+    ctx.fillStyle = '#111'
+    ctx.fillRect(14, 2, 4, 4)
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(15, 2, 2, 2)     // shine
+
+    // ── Beak (orange, points right) ──────────────────────────────────────────
+    ctx.fillStyle = '#f97316'
+    ctx.fillRect(20, 4, 6, 2)     // upper beak
+    ctx.fillRect(20, 6, 5, 2)     // lower beak (slightly shorter)
+    ctx.fillStyle = '#ea580c'
+    ctx.fillRect(20, 6, 5, 1)     // beak midline shadow
+
+    // ── White belly ──────────────────────────────────────────────────────────
+    ctx.fillStyle = '#f8fafc'
+    ctx.fillRect(8, 12, 12, 13)
+    ctx.fillRect(7, 14, 14, 9)
+
+    // ── Flippers ─────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#111827'
+    ctx.fillRect(0, 11, 5, 11)    // back flipper
+    ctx.fillRect(23, 11, 5, 11)   // front flipper
+
+    // ── Feet (orange, alternating for waddle) ────────────────────────────────
+    ctx.fillStyle = '#f97316'
+    if (frame === 0) {
+      ctx.fillRect(7, 25, 6, 3)   // left foot forward
+      ctx.fillRect(16, 24, 6, 3)  // right foot back
+    } else {
+      ctx.fillRect(7, 24, 6, 3)   // left foot back
+      ctx.fillRect(16, 25, 6, 3)  // right foot forward
+    }
+    // Toe detail
+    ctx.fillStyle = '#ea580c'
+    ctx.fillRect(7, 27, 2, 1)
+    ctx.fillRect(10, 27, 2, 1)
+    ctx.fillRect(16, 27, 2, 1)
+    ctx.fillRect(19, 27, 2, 1)
+
+    if (facing === 'left') flipH(ctx, 28, 28)
+  })
+}

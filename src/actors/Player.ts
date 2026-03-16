@@ -1,6 +1,6 @@
 import * as ex from 'excalibur'
 import { PLAYER_SPEED, PLAYER_JUMP_VELOCITY, RESPAWN_DELAY_MS, DROWNING_TIME_MS } from '../config'
-import { drawPlayer, drawPlayerJump, drawPlayerFly, drawStar } from '../graphics/sprites'
+import { drawPlayer, drawPlayerJump, drawPlayerFly, drawPlayerSkate, drawStar } from '../graphics/sprites'
 import { Fireball } from './Fireball'
 
 export const VEHICLE_TAG = 'vehicle'
@@ -16,6 +16,7 @@ export class Player extends ex.Actor {
   fireballCooldown: number = 0
   respawnPos: ex.Vector = ex.vec(50, 200)
   isRespawning: boolean = false
+  isOnIce: boolean = false
 
   // Health — 3 hearts, loses one per hit, respawns when all are lost
   health: number = 3
@@ -113,7 +114,10 @@ export class Player extends ex.Actor {
     }
 
     if (this.isOnVehicle) {
-      if (kb.isHeld(ex.Keys.Up) || kb.isHeld(ex.Keys.Space)) {
+      const isAirplane = this.currentVehicle?.tags.has('airplane')
+      if (!isAirplane && (kb.isHeld(ex.Keys.Up) || kb.isHeld(ex.Keys.Space))) {
+        this.dismountVehicle()
+      } else if (isAirplane && kb.wasPressed(ex.Keys.Space)) {
         this.dismountVehicle()
       }
       return
@@ -130,8 +134,12 @@ export class Player extends ex.Actor {
       this.facingRight = true
       moving = true
     } else {
-      this.vel.x *= 0.75
-      if (Math.abs(this.vel.x) < 5) this.vel.x = 0
+      if (this.isOnIce && this.isOnGround) {
+        this.vel.x *= 0.992   // ice: almost no friction — keep sliding
+      } else {
+        this.vel.x *= 0.75
+        if (Math.abs(this.vel.x) < 5) this.vel.x = 0
+      }
     }
 
     // ── Jump & Fly ────────────────────────────────────────────────────────────
@@ -194,6 +202,9 @@ export class Player extends ex.Actor {
     if (this.isFlying) {
       const dir = this.facingRight ? 'right' : 'left'
       this.graphics.use(drawPlayerFly(dir, this._flyFlapFrame))
+    } else if (this.isOnIce && this.isOnGround) {
+      const dir = this.facingRight ? 'right' : 'left'
+      this.graphics.use(drawPlayerSkate(dir))
     } else {
       this.frameTimer += delta
       if (this.isOnGround && moving) {

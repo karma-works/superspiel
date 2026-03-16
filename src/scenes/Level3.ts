@@ -8,6 +8,7 @@ import { Water } from '../actors/hazards/Water'
 import { FallingRock } from '../actors/hazards/FallingRock'
 import { PatrolEnemy } from '../actors/enemies/PatrolEnemy'
 import { Ship } from '../actors/vehicles/Ship'
+import { Penguin } from '../actors/vehicles/Penguin'
 import { Checkpoint } from '../actors/Checkpoint'
 import { SnowSystem } from '../actors/SnowSystem'
 
@@ -67,6 +68,10 @@ export class Level3 extends LevelScene {
     // Ship on water
     this.add(new Ship(ex.vec(95 * TILE_SIZE, groundActorY)))
 
+    // Penguins — rideable on the ice
+    this.add(new Penguin(ex.vec(7 * TILE_SIZE, groundActorY)))   // near start
+    this.add(new Penguin(ex.vec(125 * TILE_SIZE, groundActorY))) // after water gap
+
     // Falling icicles
     this.add(new FallingRock(ex.vec(25 * TILE_SIZE, (GROUND - 17) * TILE_SIZE)))
     this.add(new FallingRock(ex.vec(52 * TILE_SIZE, (GROUND - 18) * TILE_SIZE)))
@@ -110,11 +115,13 @@ export class Level3 extends LevelScene {
     this.respawnSystem.addCheckpoint(ex.vec(60 * TILE_SIZE, cpY))
     this.respawnSystem.addCheckpoint(ex.vec(120 * TILE_SIZE, cpY))
 
-    // Blizzard wind push
+    // Blizzard wind push + ice skating state
     this.on('postupdate', (_evt: unknown) => {
       if (!this.player.isOnVehicle && !this.player.isRespawning) {
         this.player.vel.x += 0.5
       }
+      this.player.isOnIce = true
+      this.friend.isSkating = true
     })
 
     this.addExitGate(185, GROUND - 4)

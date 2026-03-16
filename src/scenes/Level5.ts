@@ -17,7 +17,7 @@ const GROUND = 25
 export class Level5 extends LevelScene {
   levelName = 'Level 5: Sky Islands'
   bgTheme = 'sky' as const
-  nextLevelKey = 'mainmenu'
+  nextLevelKey = 'level6'
   startTileX = 2
   startTileY = GROUND - 2
   numCoins = 25

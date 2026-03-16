@@ -1,6 +1,6 @@
 import * as ex from 'excalibur'
 import { FRIEND_OFFSET_X, FRIEND_OFFSET_Y } from '../config'
-import { drawFox } from '../graphics/sprites'
+import { drawFox, drawFoxSkate } from '../graphics/sprites'
 import { Player } from './Player'
 import { BaseEnemy } from './enemies/BaseEnemy'
 
@@ -12,6 +12,7 @@ export class Friend extends ex.Actor {
   private animFrame: number = 0
   private blinkTimer: number = 0
   private facingRight: boolean = true
+  isSkating: boolean = false
 
   constructor(target: Player) {
     super({
@@ -65,14 +66,18 @@ export class Friend extends ex.Actor {
     this.frameTimer += delta
     if (this.frameTimer > 120) {
       this.frameTimer = 0
-      let blinkFrame = this.animFrame
-      if (this.blinkTimer > 3000 && this.blinkTimer < 3150) {
-        blinkFrame = 2
-      }
-      if (this.blinkTimer > 3150) this.blinkTimer = 0
-      this.animFrame = (this.animFrame + 1) % 2
       const facing = this.facingRight ? 'right' : 'left'
-      this.graphics.use(drawFox(facing, blinkFrame))
+      if (this.isSkating) {
+        this.graphics.use(drawFoxSkate(facing))
+      } else {
+        let blinkFrame = this.animFrame
+        if (this.blinkTimer > 3000 && this.blinkTimer < 3150) {
+          blinkFrame = 2
+        }
+        if (this.blinkTimer > 3150) this.blinkTimer = 0
+        this.animFrame = (this.animFrame + 1) % 2
+        this.graphics.use(drawFox(facing, blinkFrame))
+      }
     }
 
     // Attack nearby enemies
