@@ -15,6 +15,7 @@ const GROUND = 25
 
 export class Level3 extends LevelScene {
   levelName = 'Level 3: Winter Frost'
+  bgTheme = 'winter' as const
   nextLevelKey = 'level4'
   startTileX = 2
   startTileY = GROUND - 2
@@ -55,11 +56,12 @@ export class Level3 extends LevelScene {
     const snow = new SnowSystem(80, 800, 450)
     this.add(snow)
 
-    // Water (frozen lake crack)
+    // Water (frozen lake crack) — fills entire pit cols 80-110
+    const waterW3 = (110 - 80 + 1) * TILE_SIZE   // 31 tiles wide
+    const waterH3 = (this.mapHeight - GROUND) * TILE_SIZE   // 5 tiles deep
     this.add(new Water(
-      ex.vec(95 * TILE_SIZE, groundY),
-      30 * TILE_SIZE,
-      5 * TILE_SIZE
+      ex.vec(80 * TILE_SIZE + waterW3 / 2, GROUND * TILE_SIZE + waterH3 / 2),
+      waterW3, waterH3,
     ))
 
     // Ship on water
@@ -117,7 +119,6 @@ export class Level3 extends LevelScene {
 
     this.addExitGate(185, GROUND - 4)
 
-    this.backgroundColor = ex.Color.fromHex('#bfdbfe')
 
     void engine
   }

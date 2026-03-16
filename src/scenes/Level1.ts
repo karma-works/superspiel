@@ -18,6 +18,7 @@ const GROUND = 25
 
 export class Level1 extends LevelScene {
   levelName = 'Level 1: Rainy Hills'
+  bgTheme = 'hills' as const
   nextLevelKey = 'level2'
   startTileX = 2
   startTileY = GROUND - 2   // spawn 2 tiles above ground surface
@@ -60,13 +61,13 @@ export class Level1 extends LevelScene {
     const rain = new RainSystem(60, 800, 450)
     this.add(rain)
 
-    // Water in the gap
-    const waterActor = new Water(
-      ex.vec(65 * TILE_SIZE, GROUND * TILE_SIZE),
-      20 * TILE_SIZE,
-      5 * TILE_SIZE
-    )
-    this.add(waterActor)
+    // Water fills the entire pit (cols 55-75 = 21 cols, 5 rows deep)
+    const waterW1 = (75 - 55 + 1) * TILE_SIZE   // 21 tiles wide
+    const waterH1 = (this.mapHeight - GROUND) * TILE_SIZE   // 5 tiles deep
+    this.add(new Water(
+      ex.vec(55 * TILE_SIZE + waterW1 / 2, GROUND * TILE_SIZE + waterH1 / 2),
+      waterW1, waterH1,
+    ))
 
     // Ship on water
     const ship = new Ship(ex.vec(65 * TILE_SIZE, (GROUND - 1) * TILE_SIZE))
@@ -129,7 +130,5 @@ export class Level1 extends LevelScene {
     // Exit gate
     this.addExitGate(195, GROUND - 4)
 
-    // Background color: stormy rainy sky
-    this.backgroundColor = ex.Color.fromHex('#4a5568')
   }
 }

@@ -13,6 +13,7 @@ const GROUND = 25
 
 export class Level2 extends LevelScene {
   levelName = 'Level 2: Easter Meadow'
+  bgTheme = 'meadow' as const
   nextLevelKey = 'level3'
   startTileX = 2
   startTileY = GROUND - 2
@@ -100,6 +101,5 @@ export class Level2 extends LevelScene {
 
     this.addExitGate(174, GROUND - 4)
 
-    this.backgroundColor = ex.Color.fromHex('#86efac')
   }
 }

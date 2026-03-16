@@ -16,6 +16,7 @@ const GROUND = 25
 
 export class Level5 extends LevelScene {
   levelName = 'Level 5: Sky Islands'
+  bgTheme = 'sky' as const
   nextLevelKey = 'mainmenu'
   startTileX = 2
   startTileY = GROUND - 2
@@ -134,6 +135,5 @@ export class Level5 extends LevelScene {
 
     this.addExitGate(208, GROUND - 4)
 
-    this.backgroundColor = ex.Color.fromHex('#fde68a')
   }
 }

@@ -8,6 +8,7 @@ import { CoinTracker } from '../systems/CoinTracker'
 import { RespawnSystem } from '../systems/RespawnSystem'
 import { HUD } from '../ui/HUD'
 import { drawGroundTile, drawPlatformTile, drawIceTile, drawRoadTile } from '../graphics/sprites'
+import { DreamBackground, BgTheme } from '../actors/DreamBackground'
 
 export type TileType = 'ground' | 'ground1' | 'platform' | 'empty' | 'ice' | 'road'
 
@@ -21,6 +22,7 @@ export abstract class LevelScene extends ex.Scene {
   nextLevelKey: string = 'mainmenu'
   mapWidth: number = 200
   mapHeight: number = 20
+  bgTheme: BgTheme = 'hills'
   abstract levelName: string
   abstract startTileX: number
   abstract startTileY: number
@@ -32,6 +34,9 @@ export abstract class LevelScene extends ex.Scene {
   onInitialize(engine: ex.Engine): void {
     this._exiting = false
     this.coinTracker.reset(this.numCoins)
+
+    // Parallax background
+    this.add(new DreamBackground(this.bgTheme))
 
     // Build map
     this.tileMap = this.buildMap(engine)

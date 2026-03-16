@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 165" width="500" height="165">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#ede9fe"/>
+    </linearGradient>
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="tailGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8c00"/>
+      <stop offset="100%" stop-color="#e07000"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="165" rx="20" fill="url(#bg)"/>
+  <rect width="500" height="165" rx="20" fill="none" stroke="#7c3aed" stroke-width="2.5" opacity="0.35"/>
+
+  <!-- Clouds -->
+  <g fill="white" opacity="0.88">
+    <ellipse cx="135" cy="26" rx="36" ry="14"/>
+    <ellipse cx="108" cy="34" rx="26" ry="13"/>
+    <ellipse cx="164" cy="33" rx="23" ry="12"/>
+    <ellipse cx="368" cy="22" rx="31" ry="12"/>
+    <ellipse cx="342" cy="30" rx="21" ry="11"/>
+    <ellipse cx="396" cy="30" rx="19" ry="10"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#fbbf24" opacity="0.9">
+    <polygon points="250,10 252.5,17 260,17 254,21.5 256.5,29 250,24.5 243.5,29 246,21.5 240,17 247.5,17"/>
+    <polygon points="195,32 196.8,37 202,37 197.8,40 199.5,45 195,42 190.5,45 192.2,40 188,37 193.2,37" opacity="0.75"/>
+    <polygon points="305,29 306.8,34 312,34 307.8,37 309.5,42 305,39 300.5,42 302.2,37 298,34 303.2,34" opacity="0.75"/>
+    <polygon points="32,50 33.2,54 37,54 34,56.5 35.2,60.5 32,58 28.8,60.5 30,56.5 27,54 30.8,54" opacity="0.65"/>
+    <polygon points="468,45 469.2,49 473,49 470,51.5 471.2,55.5 468,53 464.8,55.5 466,51.5 463,49 466.8,49" opacity="0.65"/>
+  </g>
+
+  <!-- ═══ DRAGON (M) — left side ═══ -->
+
+  <!-- Tail (behind body) -->
+  <path d="M 42,118 Q 22,123 19,136 Q 21,147 36,144 Q 46,141 48,130" fill="#5b21b6" stroke="#4c1d95" stroke-width="0.5"/>
+
+  <!-- Wing (behind body) -->
+  <path d="M 54,95 Q 28,77 22,105 Q 24,122 51,116" fill="url(#wingGrad)" stroke="#8b5cf6" stroke-width="0.8" opacity="0.95"/>
+  <!-- Wing highlight -->
+  <path d="M 50,100 Q 32,88 30,108 Q 33,118 48,114" fill="#ddd6fe" opacity="0.4"/>
+
+  <!-- Body -->
+  <rect x="48" y="92" width="50" height="52" rx="15" fill="#7c3aed"/>
+  <!-- Body shadow line -->
+  <rect x="56" y="92" width="2" height="52" rx="1" fill="#6d28d9" opacity="0.3"/>
+
+  <!-- Belly plate -->
+  <rect x="58" y="100" width="30" height="42" rx="10" fill="#ede9fe"/>
+
+  <!-- Head -->
+  <rect x="52" y="60" width="46" height="37" rx="13" fill="#7c3aed"/>
+
+  <!-- Snout -->
+  <rect x="90" y="68" width="19" height="24" rx="7" fill="#7c3aed"/>
+  <!-- Snout underside (cream) -->
+  <rect x="90" y="79" width="19" height="13" rx="5" fill="#ede9fe"/>
+  <!-- Nostril -->
+  <ellipse cx="100" cy="73" rx="2.5" ry="2" fill="#5b21b6"/>
+
+  <!-- Horn 1 -->
+  <rect x="60" y="47" width="7" height="16" rx="3.5" fill="#f59e0b"/>
+  <rect x="60" y="47" width="7" height="4" rx="2" fill="#fcd34d"/>
+  <!-- Horn 2 -->
+  <rect x="77" y="44" width="7" height="16" rx="3.5" fill="#f59e0b"/>
+  <rect x="77" y="44" width="7" height="4" rx="2" fill="#fcd34d"/>
+
+  <!-- Eye white -->
+  <ellipse cx="81" cy="72" rx="10" ry="10" fill="white"/>
+  <!-- Pupil -->
+  <ellipse cx="83" cy="72" rx="6" ry="6" fill="#1e1b4b"/>
+  <!-- Eye shine -->
+  <ellipse cx="80" cy="69" rx="3" ry="3" fill="white"/>
+  <!-- Eye outline -->
+  <ellipse cx="81" cy="72" rx="10" ry="10" fill="none" stroke="#5b21b6" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Scale detail on body -->
+  <path d="M 72,97 Q 78,94 84,97" fill="none" stroke="#6d28d9" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 68,104 Q 74,101 80,104" fill="none" stroke="#6d28d9" stroke-width="1.2" opacity="0.4"/>
+
+  <!-- Legs -->
+  <rect x="52" y="135" width="15" height="22" rx="7.5" fill="#6d28d9"/>
+  <rect x="76" y="138" width="15" height="19" rx="7.5" fill="#6d28d9"/>
+
+  <!-- Claws -->
+  <g fill="#f59e0b">
+    <ellipse cx="51" cy="156" rx="3.5" ry="2"/>
+    <ellipse cx="58" cy="157" rx="3.5" ry="2"/>
+    <ellipse cx="65" cy="157" rx="3.5" ry="2"/>
+    <ellipse cx="75" cy="156" rx="3.5" ry="2"/>
+    <ellipse cx="83" cy="157" rx="3.5" ry="2"/>
+    <ellipse cx="90" cy="156" rx="3.5" ry="2"/>
+  </g>
+
+  <!-- ═══ FOX (Fynn) — right side ═══ -->
+
+  <!-- Tail (behind body) -->
+  <path d="M 453,112 Q 474,97 480,122 Q 480,146 460,152" fill="url(#tailGrad)" stroke="#cc6600" stroke-width="0.5"/>
+  <!-- Tail white tip -->
+  <path d="M 460,140 Q 480,132 480,144 Q 478,154 462,152" fill="#fff8f0"/>
+
+  <!-- Body -->
+  <rect x="403" y="98" width="52" height="52" rx="15" fill="#ff8c00"/>
+
+  <!-- Belly -->
+  <rect x="414" y="108" width="30" height="40" rx="10" fill="#fff8f0"/>
+
+  <!-- Head -->
+  <rect x="406" y="64" width="46" height="38" rx="13" fill="#ff8c00"/>
+
+  <!-- Muzzle -->
+  <ellipse cx="429" cy="95" rx="16" ry="12" fill="#fff8f0"/>
+
+  <!-- Ear left (outer) -->
+  <polygon points="409,70 404,46 424,65" fill="#ff8c00"/>
+  <!-- Ear left (inner) -->
+  <polygon points="411,68 407,52 421,64" fill="#ff5500"/>
+
+  <!-- Ear right (outer) -->
+  <polygon points="449,70 454,46 434,65" fill="#ff8c00"/>
+  <!-- Ear right (inner) -->
+  <polygon points="447,68 451,52 437,64" fill="#ff5500"/>
+
+  <!-- Eye left -->
+  <ellipse cx="417" cy="78" rx="7.5" ry="7.5" fill="#1a1a1a"/>
+  <ellipse cx="415" cy="76" rx="3" ry="3" fill="white"/>
+  <!-- Eye right -->
+  <ellipse cx="441" cy="78" rx="7.5" ry="7.5" fill="#1a1a1a"/>
+  <ellipse cx="439" cy="76" rx="3" ry="3" fill="white"/>
+
+  <!-- Nose -->
+  <ellipse cx="429" cy="91" rx="5" ry="4" fill="#cc2200"/>
+  <!-- Mouth hint -->
+  <path d="M 424,96 Q 429,100 434,96" fill="none" stroke="#cc6600" stroke-width="1.2" stroke-linecap="round"/>
+
+  <!-- Fur detail -->
+  <path d="M 416,102 Q 422,99 428,102" fill="none" stroke="#e07000" stroke-width="1.2" opacity="0.4"/>
+  <path d="M 413,110 Q 419,107 425,110" fill="none" stroke="#e07000" stroke-width="1.2" opacity="0.4"/>
+
+  <!-- Legs -->
+  <rect x="408" y="140" width="15" height="19" rx="7.5" fill="#cc6600"/>
+  <rect x="435" y="140" width="15" height="19" rx="7.5" fill="#cc6600"/>
+
+  <!-- Paws -->
+  <g fill="#cc6600">
+    <ellipse cx="407" cy="158" rx="4" ry="2.5"/>
+    <ellipse cx="415" cy="159" rx="4" ry="2.5"/>
+    <ellipse cx="434" cy="158" rx="4" ry="2.5"/>
+    <ellipse cx="442" cy="159" rx="4" ry="2.5"/>
+  </g>
+
+  <!-- ═══ TITLE ═══ -->
+  <text
+    x="250" y="113"
+    font-family="'Arial Rounded MT Bold','Fredoka One','Comic Sans MS',Helvetica,sans-serif"
+    font-size="52"
+    font-weight="bold"
+    text-anchor="middle"
+    fill="white"
+    stroke="white"
+    stroke-width="6"
+    stroke-linejoin="round">Superspiel</text>
+  <text
+    x="250" y="113"
+    font-family="'Arial Rounded MT Bold','Fredoka One','Comic Sans MS',Helvetica,sans-serif"
+    font-size="52"
+    font-weight="bold"
+    text-anchor="middle"
+    fill="#4c1d95">Superspiel</text>
+
+  <!-- Subtitle -->
+  <text
+    x="250" y="146"
+    font-family="'Arial Rounded MT Bold','Fredoka One','Comic Sans MS',Helvetica,sans-serif"
+    font-size="16"
+    font-style="italic"
+    text-anchor="middle"
+    fill="#7c3aed" opacity="0.85">Monsters? Never heard of them.</text>
+</svg>

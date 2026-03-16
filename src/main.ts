@@ -14,7 +14,7 @@ const game = new ex.Engine({
   displayMode: ex.DisplayMode.FitScreen,
   pixelArt: true,
   antialiasing: false,
-  backgroundColor: ex.Color.fromHex('#5bc8f5'),
+  backgroundColor: ex.Color.fromHex('#29b6f6'),
   physics: {
     gravity: ex.vec(0, GRAVITY),
     solver: ex.SolverStrategy.Arcade,
