@@ -15,7 +15,7 @@ const GROUND = 25
 export class Level9 extends LevelScene {
   levelName = 'Level 9: Downtown Drive'
   bgTheme = 'city' as const
-  nextLevelKey = 'mainmenu'
+  nextLevelKey = 'level10'
   prevLevelKey = 'level8'
   startTileX = 2
   startTileY = GROUND - 2

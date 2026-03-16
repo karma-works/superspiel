@@ -41,6 +41,14 @@ export class Fireball extends ex.Actor {
         return
       }
 
+      // Damage boss
+      if (other.tags.has('boss')) {
+        const boss = other as unknown as { onHit: (d: number) => void }
+        boss.onHit(1)
+        this.kill()
+        return
+      }
+
       // Pass through player and other fireballs — no interaction
       if (other.tags.has('player') || other.tags.has('fireball')) return
 

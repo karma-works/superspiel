@@ -144,9 +144,9 @@ export abstract class LevelScene extends ex.Scene {
 
     // Page Up / Page Down level navigation (raw code strings not in ex.Keys enum)
     const kb = engine.input.keyboard
-    if (kb.wasPressed('PageDown' as ex.Keys)) {
+    if (kb.wasPressed('PageUp' as ex.Keys)) {
       this.goToNextLevel(engine)
-    } else if (kb.wasPressed('PageUp' as ex.Keys)) {
+    } else if (kb.wasPressed('PageDown' as ex.Keys)) {
       this.goToPrevLevel(engine)
     }
   }

@@ -1293,6 +1293,253 @@ export function drawRocket(): ex.Canvas {
   })
 }
 
+// ─── Boss monster (Nebbio) ────────────────────────────────────────────────────
+export function drawBossMonster(frame: number): ex.Canvas {
+  return makeCanvas(64, 48, (ctx) => {
+    const BDY = '#2d1b69'  // deep indigo body
+    const BDK = '#1a0a3c'  // darker shadow
+    const BWG = '#4c1d95'  // wing membrane
+    const BEY = '#ef4444'  // glowing red eyes
+    const BTH = '#f8fafc'  // white teeth
+
+    // ── Shadow under boss ─────────────────────────────────────────────────────
+    ctx.fillStyle = 'rgba(0,0,0,0.25)'
+    ctx.beginPath(); ctx.ellipse(32, 47, 26, 5, 0, 0, Math.PI * 2); ctx.fill()
+
+    // ── Bat wings (spread on both sides) ─────────────────────────────────────
+    ctx.fillStyle = BWG
+    // Right wing
+    ctx.beginPath()
+    ctx.moveTo(44, 14)
+    ctx.lineTo(64, 4)
+    ctx.lineTo(62, 20)
+    ctx.lineTo(56, 22)
+    ctx.lineTo(50, 20)
+    ctx.closePath(); ctx.fill()
+    ctx.beginPath()
+    ctx.moveTo(50, 20)
+    ctx.lineTo(64, 16)
+    ctx.lineTo(62, 28)
+    ctx.lineTo(52, 26)
+    ctx.closePath(); ctx.fill()
+    // Left wing (mirror)
+    ctx.beginPath()
+    ctx.moveTo(20, 14)
+    ctx.lineTo(0, 4)
+    ctx.lineTo(2, 20)
+    ctx.lineTo(8, 22)
+    ctx.lineTo(14, 20)
+    ctx.closePath(); ctx.fill()
+    ctx.beginPath()
+    ctx.moveTo(14, 20)
+    ctx.lineTo(0, 16)
+    ctx.lineTo(2, 28)
+    ctx.lineTo(12, 26)
+    ctx.closePath(); ctx.fill()
+
+    // Wing vein lines
+    ctx.strokeStyle = BDK; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(44, 14); ctx.lineTo(62, 10); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(44, 18); ctx.lineTo(60, 24); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(20, 14); ctx.lineTo(2, 10); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(20, 18); ctx.lineTo(4, 24); ctx.stroke()
+
+    // ── Body ──────────────────────────────────────────────────────────────────
+    ctx.fillStyle = BDY
+    ctx.fillRect(14, 10, 36, 34)
+    ctx.fillRect(12, 14, 40, 28)
+    ctx.fillRect(10, 18, 44, 18)
+
+    // Body highlight
+    ctx.fillStyle = '#3b21a3'
+    ctx.fillRect(14, 10, 36, 4)
+
+    // Body shadow/bottom
+    ctx.fillStyle = BDK
+    ctx.fillRect(14, 36, 36, 8)
+
+    // ── Head ──────────────────────────────────────────────────────────────────
+    ctx.fillStyle = BDY
+    ctx.fillRect(18, 2, 28, 16)
+    ctx.fillRect(16, 5, 32, 12)
+
+    // Crown-like horns
+    ctx.fillStyle = '#fbbf24'  // gold crown
+    ctx.fillRect(20, 0, 4, 5)
+    ctx.fillRect(30, 0, 4, 7)
+    ctx.fillRect(40, 0, 4, 5)
+    // Crown band
+    ctx.fillRect(20, 4, 24, 3)
+
+    // ── Eyes (glowing red, animate slightly) ──────────────────────────────────
+    const eyeGlow = frame % 2 === 0 ? 4 : 5
+    ctx.fillStyle = 'rgba(239,68,68,0.3)'
+    ctx.beginPath(); ctx.arc(24, 10, eyeGlow + 2, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(40, 10, eyeGlow + 2, 0, Math.PI * 2); ctx.fill()
+    ctx.fillStyle = BEY
+    ctx.fillRect(20, 7, 8, 6)
+    ctx.fillRect(36, 7, 8, 6)
+    // Pupils
+    ctx.fillStyle = '#7f1d1d'
+    ctx.fillRect(22, 8, 4, 4)
+    ctx.fillRect(38, 8, 4, 4)
+    // Eye shine
+    ctx.fillStyle = 'rgba(255,200,200,0.8)'
+    ctx.fillRect(21, 8, 2, 2)
+    ctx.fillRect(37, 8, 2, 2)
+
+    // ── Nose ──────────────────────────────────────────────────────────────────
+    ctx.fillStyle = BDK
+    ctx.fillRect(28, 13, 8, 4)
+    ctx.fillRect(30, 12, 4, 3)
+
+    // ── Teeth (big toothy grin) ───────────────────────────────────────────────
+    ctx.fillStyle = BTH
+    for (let i = 0; i < 5; i++) {
+      ctx.fillRect(18 + i * 6, 17, 4, 5)
+    }
+    // Gum gap
+    ctx.fillStyle = BDK
+    for (let i = 0; i < 4; i++) {
+      ctx.fillRect(22 + i * 6, 17, 2, 5)
+    }
+
+    // ── Arms / claws ──────────────────────────────────────────────────────────
+    ctx.fillStyle = BDY
+    if (frame === 0) {
+      // Arms raised slightly menacing
+      ctx.fillRect(6, 18, 8, 12)
+      ctx.fillRect(50, 18, 8, 12)
+    } else {
+      // Arms lowered
+      ctx.fillRect(6, 22, 8, 12)
+      ctx.fillRect(50, 22, 8, 12)
+    }
+
+    // Claws
+    ctx.fillStyle = '#e2e8f0'
+    // Left claws
+    ctx.fillRect(4, frame === 0 ? 28 : 32, 3, 4)
+    ctx.fillRect(7, frame === 0 ? 29 : 33, 3, 4)
+    ctx.fillRect(10, frame === 0 ? 28 : 32, 3, 4)
+    // Right claws
+    ctx.fillRect(51, frame === 0 ? 28 : 32, 3, 4)
+    ctx.fillRect(54, frame === 0 ? 29 : 33, 3, 4)
+    ctx.fillRect(57, frame === 0 ? 28 : 32, 3, 4)
+
+    // ── Stubby legs ───────────────────────────────────────────────────────────
+    ctx.fillStyle = BDY
+    ctx.fillRect(18, 40, 10, 8)
+    ctx.fillRect(36, 40, 10, 8)
+    ctx.fillStyle = BDK
+    ctx.fillRect(17, 46, 13, 2)
+    ctx.fillRect(35, 46, 13, 2)
+
+    // ── Belly scale pattern ───────────────────────────────────────────────────
+    ctx.fillStyle = '#3b21a3'
+    ctx.fillRect(24, 22, 16, 14)
+    ctx.fillRect(26, 20, 12, 16)
+    // Scale lines
+    ctx.strokeStyle = BDK; ctx.lineWidth = 1
+    for (let sy = 22; sy < 36; sy += 4) {
+      ctx.beginPath()
+      ctx.moveTo(24, sy)
+      ctx.lineTo(40, sy)
+      ctx.stroke()
+    }
+  })
+}
+
+// ─── Princess ─────────────────────────────────────────────────────────────────
+export function drawPrincess(frame: number): ex.Canvas {
+  return makeCanvas(16, 28, (ctx) => {
+    // ── Crown ─────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#fbbf24'
+    ctx.fillRect(4, 0, 8, 3)
+    ctx.fillRect(3, 2, 10, 2)
+    // Crown points
+    ctx.fillRect(4, 0, 2, 2)
+    ctx.fillRect(7, 0, 2, 3)
+    ctx.fillRect(10, 0, 2, 2)
+    // Gems
+    ctx.fillStyle = '#ef4444'
+    ctx.fillRect(5, 1, 1, 1)
+    ctx.fillRect(8, 0, 1, 1)
+    ctx.fillRect(11, 1, 1, 1)
+
+    // ── Head ──────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#fde68a'
+    ctx.fillRect(3, 3, 10, 9)
+    ctx.fillRect(2, 5, 12, 6)
+
+    // ── Hair ──────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#f59e0b'
+    ctx.fillRect(2, 4, 3, 8)   // left
+    ctx.fillRect(11, 4, 3, 8)  // right
+    ctx.fillRect(3, 11, 2, 4)  // left curl
+    ctx.fillRect(11, 11, 2, 4) // right curl
+
+    // ── Eyes (happy — curved or dot) ─────────────────────────────────────────
+    ctx.fillStyle = '#1e293b'
+    if (frame % 3 === 2) {
+      // Blink
+      ctx.fillRect(5, 7, 2, 1)
+      ctx.fillRect(9, 7, 2, 1)
+    } else {
+      ctx.fillRect(5, 6, 2, 3)
+      ctx.fillRect(9, 6, 2, 3)
+      // Shine
+      ctx.fillStyle = '#fff'
+      ctx.fillRect(5, 6, 1, 1)
+      ctx.fillRect(9, 6, 1, 1)
+    }
+
+    // ── Rosy cheeks ───────────────────────────────────────────────────────────
+    ctx.fillStyle = 'rgba(255,150,150,0.5)'
+    ctx.beginPath(); ctx.arc(4, 9, 2, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(12, 9, 2, 0, Math.PI * 2); ctx.fill()
+
+    // ── Smile ─────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#b45309'
+    ctx.fillRect(6, 10, 4, 1)
+    ctx.fillRect(5, 9, 1, 2)
+    ctx.fillRect(10, 9, 1, 2)
+
+    // ── Dress (pink with white trim) ──────────────────────────────────────────
+    ctx.fillStyle = '#f472b6'
+    ctx.fillRect(3, 12, 10, 12)
+    ctx.fillRect(2, 14, 12, 9)
+    // Dress flare
+    ctx.fillRect(1, 21, 14, 4)
+    ctx.fillRect(0, 22, 16, 3)
+
+    // Dress trim
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(0, 22, 16, 1)
+    ctx.fillRect(3, 12, 10, 1)
+
+    // Dress pattern
+    ctx.fillStyle = '#f9a8d4'
+    ctx.fillRect(5, 14, 3, 5)
+    ctx.fillRect(9, 16, 2, 4)
+
+    // ── Arms (waving) ─────────────────────────────────────────────────────────
+    ctx.fillStyle = '#fde68a'
+    if (frame % 2 === 0) {
+      ctx.fillRect(0, 13, 3, 5)    // left arm down
+      ctx.fillRect(13, 11, 3, 5)   // right arm up (waving)
+    } else {
+      ctx.fillRect(0, 13, 3, 5)    // left arm
+      ctx.fillRect(13, 13, 3, 5)   // right arm neutral
+    }
+
+    // ── Shoes ─────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#7c3aed'
+    ctx.fillRect(2, 24, 4, 3)
+    ctx.fillRect(10, 24, 4, 3)
+  })
+}
+
 export function drawFlowerTile(topRow: boolean): ex.Canvas {
   return makeCanvas(16, 16, (ctx) => {
     // Earthy base

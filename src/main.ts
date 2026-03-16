@@ -10,6 +10,7 @@ import { Level6 } from './scenes/Level6'
 import { Level7 } from './scenes/Level7'
 import { Level8 } from './scenes/Level8'
 import { Level9 } from './scenes/Level9'
+import { Level10 } from './scenes/Level10'
 import { startMusic } from './music'
 
 const game = new ex.Engine({
@@ -35,10 +36,11 @@ game.addScene('level6', new Level6())
 game.addScene('level7', new Level7())
 game.addScene('level8', new Level8())
 game.addScene('level9', new Level9())
+game.addScene('level10', new Level10())
 
-// Allow ?level=1..9 to jump directly to a level for development / testing
+// Allow ?level=1..10 to jump directly to a level for development / testing
 const levelParam = new URLSearchParams(window.location.search).get('level')
-const validLevels = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+const validLevels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 const startScene = levelParam && validLevels.includes(levelParam)
   ? `level${levelParam}`
   : 'mainmenu'
