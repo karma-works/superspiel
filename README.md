@@ -6,6 +6,12 @@
 
 > **The monsters heard a dragon and a fox were coming. They left.**
 
+> **🎮 Playable now** · [karma-works.github.io/superspiel](https://karma-works.github.io/superspiel/) · ⚗️ Experimental — things may wobble
+
+---
+
+> **Recommended age: 6+** &nbsp;|&nbsp; Keyboard required &nbsp;|&nbsp; No downloads, runs in the browser
+
 ---
 
 ## The Story
@@ -22,7 +28,7 @@ They are **not** monsters, mind you. They're just having a bad day.
 
 The shards don't respond to force. They respond to *generosity*. Each shard reveals itself only once every last coin in its land has been collected. So Miro and Fynn must explore every nook, peek behind every waterfall, and rummage through every snowdrift before the way forward opens.
 
-Five worlds. Five shards. One dragon, one fox, and zero monsters.
+Seven worlds. Seven shards. One dragon, one fox, and zero monsters.
 
 ---
 
@@ -32,9 +38,11 @@ Five worlds. Five shards. One dragon, one fox, and zero monsters.
 |---|-------|------------|
 | 1 | **Rainy Hills** | Waterfalls, slippery mud, falling rocks, deep fog |
 | 2 | **Easter Meadow** | Spring flowers, burrow tunnels, egg-tossing bunnies |
-| 3 | **Winter Frost** | Ice platforms, blizzard wind, a ship hidden under the ice |
+| 3 | **Winter Frost** | Ice skating, rideable penguins, a ship on the frozen lake |
 | 4 | **City Roads** | Taxi rides, sewer shortcuts, construction hazards |
 | 5 | **Sky Islands** | Cloud platforms, ancient ruins, an airship across the void |
+| 6 | **Sunset Peaks** | Mountain-top gaps, free-flying airplane, crimson sky |
+| 7 | **Deep Space** | Asteroid platforms, rocket ship, zero-gravity gaps |
 
 ---
 
@@ -47,11 +55,20 @@ Five worlds. Five shards. One dragon, one fox, and zero monsters.
 | Double-jump → glide | Jump again in the air (Kirby-style puff) |
 | Deflate glide | Arrow Down &nbsp;or&nbsp; S |
 | Shoot fireball | Z &nbsp;or&nbsp; X |
-| Board / leave vehicle | Walk into it &nbsp;/&nbsp; press Up |
+| Board vehicle | Walk into it |
+| Leave vehicle | Up / Space &nbsp;(rocket & airplane: Space only) |
 
-**Fynn** follows automatically and attacks nearby grumpy critters on his own — no button needed.
+**Fynn** follows automatically and pounces nearby grumpy critters — no button needed.
 
-Collect all coins in a level to unlock the exit gate. Checkpoints appear automatically so you never have to go back far.
+Collect all coins in a level to reach the exit. Checkpoints mean you never have to go back far.
+
+> **Tip:** Use `?level=3` in the URL to jump straight to any level (1–7).
+
+---
+
+## Status
+
+This game is **playable but experimental**. Levels, balancing, and some visuals are still being refined. Bug reports and feedback welcome via [GitHub Issues](../../issues).
 
 ---
 
@@ -65,7 +82,13 @@ pnpm build     # production build
 
 **Stack:** TypeScript · [Excalibur.js](https://excaliburjs.com/) · Vite · pnpm
 
-All sprites are drawn procedurally in TypeScript (no external image assets required to run).
+All sprites are drawn procedurally in TypeScript — no external image assets needed.
+
+---
+
+## License
+
+[MIT](LICENSE) © 2026 karma-works
 
 ---
 

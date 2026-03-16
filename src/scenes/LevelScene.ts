@@ -7,10 +7,10 @@ import { Checkpoint } from '../actors/Checkpoint'
 import { CoinTracker } from '../systems/CoinTracker'
 import { RespawnSystem } from '../systems/RespawnSystem'
 import { HUD } from '../ui/HUD'
-import { drawGroundTile, drawPlatformTile, drawIceTile, drawRoadTile } from '../graphics/sprites'
+import { drawGroundTile, drawPlatformTile, drawIceTile, drawRoadTile, drawSpaceTile } from '../graphics/sprites'
 import { DreamBackground, BgTheme } from '../actors/DreamBackground'
 
-export type TileType = 'ground' | 'ground1' | 'platform' | 'empty' | 'ice' | 'road'
+export type TileType = 'ground' | 'ground1' | 'platform' | 'empty' | 'ice' | 'road' | 'space'
 
 export abstract class LevelScene extends ex.Scene {
   player!: Player
@@ -171,6 +171,8 @@ export abstract class LevelScene extends ex.Scene {
           tile.addGraphic(row === fromRow ? drawIceTile() : drawGroundTile(1))
         } else if (type === 'road') {
           tile.addGraphic(drawRoadTile())
+        } else if (type === 'space') {
+          tile.addGraphic(row === fromRow ? drawSpaceTile(true) : drawSpaceTile(false))
         }
       }
     }
@@ -189,6 +191,8 @@ export abstract class LevelScene extends ex.Scene {
         tile.addGraphic(drawIceTile())
       } else if (type === 'road') {
         tile.addGraphic(drawRoadTile())
+      } else if (type === 'space') {
+        tile.addGraphic(drawSpaceTile(true))
       }
     }
   }

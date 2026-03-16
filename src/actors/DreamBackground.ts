@@ -1,6 +1,6 @@
 import * as ex from 'excalibur'
 
-export type BgTheme = 'hills' | 'meadow' | 'winter' | 'city' | 'sky' | 'sunset'
+export type BgTheme = 'hills' | 'meadow' | 'winter' | 'city' | 'sky' | 'sunset' | 'space'
 
 interface Cfg {
   skyTop: string; skyBot: string
@@ -17,6 +17,7 @@ const THEMES: Record<BgTheme, Cfg> = {
   city:   { skyTop: '#ff8f00', skyBot: '#ffe082', far: '#455a64', near: '#263238', sun: '#ff6d00', cloud: '#ffe0b2', detail: ['#ffd740','#ff6d00','#ef9a9a'] },
   sky:    { skyTop: '#ffe082', skyBot: '#fff9c4', far: '#e1f5fe', near: '#b3e5fc', sun: '#ff8f00', cloud: '#ffffff', detail: ['#ffffff','#ffe0b2','#f8bbd0'] },
   sunset: { skyTop: '#c2185b', skyBot: '#ff7043', far: '#7b1fa2', near: '#4a148c', sun: '#ff1744', cloud: '#ffab40', detail: ['#ff80ab','#ff6d00','#ffd740'] },
+  space:  { skyTop: '#020617', skyBot: '#0f0f23', far: '#1e1b4b', near: '#312e81', sun: '#fbbf24', cloud: '#4c1d95', detail: ['#818cf8','#f472b6','#fbbf24'] },
 }
 
 // Deterministic pseudo-random (no Math.random so sprite is stable each run)

@@ -25,7 +25,7 @@ const PEAKS: Array<{ colStart: number; colEnd: number; topRow: number }> = [
 export class Level6 extends LevelScene {
   levelName = 'Level 6: Sunset Peaks'
   bgTheme = 'sunset' as const
-  nextLevelKey = 'mainmenu'
+  nextLevelKey = 'level7'
   startTileX = 3
   startTileY = PEAKS[0].topRow - 2
   numCoins = 22

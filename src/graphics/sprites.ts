@@ -1217,3 +1217,111 @@ export function drawPenguin(facing: 'left' | 'right', frame: number): ex.Canvas 
     if (facing === 'left') flipH(ctx, 28, 28)
   })
 }
+
+export function drawRocket(): ex.Canvas {
+  return makeCanvas(48, 24, (ctx) => {
+    // Right-facing: nose at right, exhaust at left
+
+    // ── Top fin ───────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#dc2626'
+    ctx.fillRect(2, 0, 14, 5)
+    ctx.fillRect(4, 0, 10, 3)
+
+    // ── Bottom fin ────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#dc2626'
+    ctx.fillRect(2, 19, 14, 5)
+    ctx.fillRect(4, 21, 10, 3)
+
+    // ── Engine exhaust flame ──────────────────────────────────────────────────
+    ctx.fillStyle = '#f97316'
+    ctx.fillRect(0, 9, 6, 6)
+    ctx.fillStyle = '#fbbf24'
+    ctx.fillRect(0, 10, 4, 4)
+    ctx.fillStyle = 'rgba(255,255,255,0.8)'
+    ctx.fillRect(0, 11, 2, 2)
+
+    // ── Engine nozzle ─────────────────────────────────────────────────────────
+    ctx.fillStyle = '#374151'
+    ctx.fillRect(5, 7, 5, 10)
+    ctx.fillStyle = '#1f2937'
+    ctx.fillRect(5, 7, 2, 10)
+
+    // ── Main body ─────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#ef4444'
+    ctx.fillRect(9, 5, 32, 14)
+
+    // Body highlight (top)
+    ctx.fillStyle = '#f87171'
+    ctx.fillRect(9, 5, 32, 3)
+
+    // Body shadow (bottom)
+    ctx.fillStyle = '#b91c1c'
+    ctx.fillRect(9, 16, 32, 3)
+
+    // ── Gold accent stripes ───────────────────────────────────────────────────
+    ctx.fillStyle = '#fbbf24'
+    ctx.fillRect(15, 5, 3, 14)
+    ctx.fillRect(24, 5, 3, 14)
+
+    // ── Cockpit window ────────────────────────────────────────────────────────
+    ctx.fillStyle = '#bae6fd'
+    ctx.fillRect(30, 7, 10, 10)
+    ctx.fillRect(29, 8, 12, 8)
+
+    // Window frame
+    ctx.fillStyle = '#7f1d1d'
+    ctx.fillRect(29, 7, 12, 1)
+    ctx.fillRect(29, 16, 12, 1)
+    ctx.fillRect(29, 7, 1, 10)
+    ctx.fillRect(40, 7, 1, 10)
+
+    // Window shine
+    ctx.fillStyle = 'rgba(255,255,255,0.55)'
+    ctx.fillRect(31, 8, 4, 3)
+
+    // ── Nose cone ─────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#ef4444'
+    ctx.fillRect(41, 6, 4, 12)
+    ctx.fillRect(43, 7, 3, 10)
+    ctx.fillRect(45, 8, 2, 8)
+
+    // Silver nose tip
+    ctx.fillStyle = '#e2e8f0'
+    ctx.fillRect(46, 10, 2, 4)
+    ctx.fillStyle = '#ffffff'
+    ctx.fillRect(46, 11, 1, 2)
+  })
+}
+
+export function drawSpaceTile(topRow: boolean): ex.Canvas {
+  return makeCanvas(16, 16, (ctx) => {
+    // Deep space rock / asteroid surface
+    ctx.fillStyle = '#1e1b4b'
+    ctx.fillRect(0, 0, 16, 16)
+
+    if (topRow) {
+      // Bright top surface
+      ctx.fillStyle = '#3730a3'
+      ctx.fillRect(0, 0, 16, 3)
+      ctx.fillStyle = '#4338ca'
+      ctx.fillRect(0, 0, 16, 1)
+      // Crater detail
+      ctx.fillStyle = '#312e81'
+      ctx.fillRect(4, 4, 3, 3)
+      ctx.fillRect(11, 2, 2, 2)
+    } else {
+      // Underground rock texture
+      ctx.fillStyle = '#172554'
+      ctx.fillRect(0, 0, 16, 16)
+      ctx.fillStyle = '#1e3a8a'
+      ctx.fillRect(2, 3, 3, 3)
+      ctx.fillRect(9, 8, 4, 3)
+    }
+
+    // Embedded star flecks
+    ctx.fillStyle = '#818cf8'
+    ctx.fillRect(1, 1, 1, 1)
+    ctx.fillRect(14, 5, 1, 1)
+    ctx.fillRect(7, 13, 1, 1)
+  })
+}
