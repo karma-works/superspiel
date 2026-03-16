@@ -7,10 +7,10 @@ import { Checkpoint } from '../actors/Checkpoint'
 import { CoinTracker } from '../systems/CoinTracker'
 import { RespawnSystem } from '../systems/RespawnSystem'
 import { HUD } from '../ui/HUD'
-import { drawGroundTile, drawPlatformTile, drawIceTile, drawRoadTile, drawSpaceTile } from '../graphics/sprites'
+import { drawGroundTile, drawPlatformTile, drawIceTile, drawRoadTile, drawSpaceTile, drawFlowerTile } from '../graphics/sprites'
 import { DreamBackground, BgTheme } from '../actors/DreamBackground'
 
-export type TileType = 'ground' | 'ground1' | 'platform' | 'empty' | 'ice' | 'road' | 'space'
+export type TileType = 'ground' | 'ground1' | 'platform' | 'empty' | 'ice' | 'road' | 'space' | 'flower'
 
 export abstract class LevelScene extends ex.Scene {
   player!: Player
@@ -20,6 +20,7 @@ export abstract class LevelScene extends ex.Scene {
   hud!: HUD
   exitGate!: ExitGate
   nextLevelKey: string = 'mainmenu'
+  prevLevelKey: string = 'mainmenu'
   mapWidth: number = 200
   mapHeight: number = 20
   bgTheme: BgTheme = 'hills'
@@ -140,6 +141,14 @@ export abstract class LevelScene extends ex.Scene {
         this.player.triggerRespawn(engine)
       }
     }
+
+    // Page Up / Page Down level navigation (raw code strings not in ex.Keys enum)
+    const kb = engine.input.keyboard
+    if (kb.wasPressed('PageDown' as ex.Keys)) {
+      this.goToNextLevel(engine)
+    } else if (kb.wasPressed('PageUp' as ex.Keys)) {
+      this.goToPrevLevel(engine)
+    }
   }
 
   protected abstract buildMap(engine: ex.Engine): ex.TileMap
@@ -173,6 +182,8 @@ export abstract class LevelScene extends ex.Scene {
           tile.addGraphic(drawRoadTile())
         } else if (type === 'space') {
           tile.addGraphic(row === fromRow ? drawSpaceTile(true) : drawSpaceTile(false))
+        } else if (type === 'flower') {
+          tile.addGraphic(row === fromRow ? drawFlowerTile(true) : drawFlowerTile(false))
         }
       }
     }
@@ -193,6 +204,8 @@ export abstract class LevelScene extends ex.Scene {
         tile.addGraphic(drawRoadTile())
       } else if (type === 'space') {
         tile.addGraphic(drawSpaceTile(true))
+      } else if (type === 'flower') {
+        tile.addGraphic(drawFlowerTile(true))
       }
     }
   }
@@ -231,6 +244,12 @@ export abstract class LevelScene extends ex.Scene {
     if (this._exiting) return
     this._exiting = true
     engine.goToScene(this.nextLevelKey)
+  }
+
+  goToPrevLevel(engine: ex.Engine): void {
+    if (this._exiting) return
+    this._exiting = true
+    engine.goToScene(this.prevLevelKey)
   }
 
   // Helper: tile position to world position

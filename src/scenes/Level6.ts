@@ -26,6 +26,7 @@ export class Level6 extends LevelScene {
   levelName = 'Level 6: Sunset Peaks'
   bgTheme = 'sunset' as const
   nextLevelKey = 'level7'
+  prevLevelKey = 'level5'
   startTileX = 3
   startTileY = PEAKS[0].topRow - 2
   numCoins = 22

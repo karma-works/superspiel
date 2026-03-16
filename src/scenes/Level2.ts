@@ -15,6 +15,7 @@ export class Level2 extends LevelScene {
   levelName = 'Level 2: Easter Meadow'
   bgTheme = 'meadow' as const
   nextLevelKey = 'level3'
+  prevLevelKey = 'level1'
   startTileX = 2
   startTileY = GROUND - 2
   numCoins = 18

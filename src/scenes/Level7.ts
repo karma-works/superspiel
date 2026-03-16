@@ -24,7 +24,8 @@ const ASTEROIDS: Array<{ c0: number; c1: number; top: number }> = [
 export class Level7 extends LevelScene {
   levelName = 'Level 7: Deep Space'
   bgTheme = 'space' as const
-  nextLevelKey = 'mainmenu'
+  nextLevelKey = 'level8'
+  prevLevelKey = 'level6'
   startTileX = 3
   startTileY = ASTEROIDS[0].top - 2
   numCoins = 24

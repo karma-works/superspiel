@@ -1293,6 +1293,129 @@ export function drawRocket(): ex.Canvas {
   })
 }
 
+export function drawFlowerTile(topRow: boolean): ex.Canvas {
+  return makeCanvas(16, 16, (ctx) => {
+    // Earthy base
+    ctx.fillStyle = '#795548'
+    ctx.fillRect(0, 0, 16, 16)
+
+    if (topRow) {
+      // Soft green top layer
+      ctx.fillStyle = '#66bb6a'
+      ctx.fillRect(0, 0, 16, 5)
+      ctx.fillStyle = '#81c784'
+      ctx.fillRect(0, 0, 16, 2)
+
+      // Tiny flower at left
+      ctx.fillStyle = '#f48fb1'
+      ctx.fillRect(2, 0, 2, 2)
+      ctx.fillRect(1, 1, 1, 1)
+      ctx.fillRect(3, 1, 1, 1)
+      ctx.fillStyle = '#fff176'
+      ctx.fillRect(2, 1, 2, 1)
+
+      // Tiny flower at right
+      ctx.fillStyle = '#ce93d8'
+      ctx.fillRect(11, 0, 2, 2)
+      ctx.fillRect(10, 1, 1, 1)
+      ctx.fillRect(12, 1, 1, 1)
+      ctx.fillStyle = '#fff176'
+      ctx.fillRect(11, 1, 2, 1)
+    } else {
+      // Underground soil texture
+      ctx.fillStyle = '#6d4c41'
+      ctx.fillRect(2, 4, 2, 2)
+      ctx.fillRect(9, 9, 2, 2)
+      ctx.fillRect(13, 2, 2, 2)
+    }
+  })
+}
+
+export function drawBus(): ex.Canvas {
+  return makeCanvas(64, 28, (ctx) => {
+    // Right-facing: front at right, rear at left
+
+    // ── Main body ─────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#f59e0b'  // amber yellow
+    ctx.fillRect(2, 4, 60, 20)
+
+    // Top highlight
+    ctx.fillStyle = '#fbbf24'
+    ctx.fillRect(2, 4, 60, 3)
+
+    // Bottom shadow
+    ctx.fillStyle = '#d97706'
+    ctx.fillRect(2, 20, 60, 4)
+
+    // ── Roof ──────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#f59e0b'
+    ctx.fillRect(4, 1, 56, 4)
+    ctx.fillRect(6, 0, 52, 2)
+
+    // ── Windows (side row) ────────────────────────────────────────────────────
+    ctx.fillStyle = '#bae6fd'
+    for (let i = 0; i < 4; i++) {
+      ctx.fillRect(6 + i * 12, 6, 9, 8)
+    }
+
+    // Window frames
+    ctx.fillStyle = '#d97706'
+    for (let i = 0; i < 4; i++) {
+      const wx = 6 + i * 12
+      ctx.fillRect(wx, 6, 9, 1)     // top
+      ctx.fillRect(wx, 13, 9, 1)    // bottom
+      ctx.fillRect(wx, 6, 1, 8)     // left
+      ctx.fillRect(wx + 8, 6, 1, 8) // right
+    }
+
+    // Window shine
+    ctx.fillStyle = 'rgba(255,255,255,0.4)'
+    for (let i = 0; i < 4; i++) {
+      ctx.fillRect(7 + i * 12, 7, 3, 3)
+    }
+
+    // ── Destination sign (front top-right) ────────────────────────────────────
+    ctx.fillStyle = '#1e3a8a'
+    ctx.fillRect(54, 5, 8, 5)
+    ctx.fillStyle = '#fbbf24'
+    ctx.fillRect(55, 6, 6, 3)
+
+    // ── Headlights (front = right) ────────────────────────────────────────────
+    ctx.fillStyle = '#fef08a'
+    ctx.fillRect(60, 8, 4, 4)
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(61, 9, 2, 2)
+
+    // ── Tail lights (rear = left) ─────────────────────────────────────────────
+    ctx.fillStyle = '#dc2626'
+    ctx.fillRect(0, 8, 3, 5)
+
+    // ── Door (left side, toward rear) ─────────────────────────────────────────
+    ctx.fillStyle = '#d97706'
+    ctx.fillRect(50, 9, 1, 11)   // door post
+
+    // ── Wheels ────────────────────────────────────────────────────────────────
+    ctx.fillStyle = '#1f2937'
+    ctx.beginPath(); ctx.arc(13, 25, 6, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(51, 25, 6, 0, Math.PI * 2); ctx.fill()
+
+    // Wheel highlights
+    ctx.fillStyle = '#4b5563'
+    ctx.beginPath(); ctx.arc(13, 25, 3, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(51, 25, 3, 0, Math.PI * 2); ctx.fill()
+
+    // Hubcaps
+    ctx.fillStyle = '#9ca3af'
+    ctx.beginPath(); ctx.arc(13, 25, 1.5, 0, Math.PI * 2); ctx.fill()
+    ctx.beginPath(); ctx.arc(51, 25, 1.5, 0, Math.PI * 2); ctx.fill()
+
+    // ── Black bumpers ─────────────────────────────────────────────────────────
+    ctx.fillStyle = '#111827'
+    ctx.fillRect(0, 22, 4, 2)
+    ctx.fillRect(60, 22, 4, 2)
+  })
+}
+
 export function drawSpaceTile(topRow: boolean): ex.Canvas {
   return makeCanvas(16, 16, (ctx) => {
     // Deep space rock / asteroid surface

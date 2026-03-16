@@ -17,6 +17,7 @@ export class Level4 extends LevelScene {
   levelName = 'Level 4: City Roads'
   bgTheme = 'city' as const
   nextLevelKey = 'level5'
+  prevLevelKey = 'level3'
   startTileX = 2
   startTileY = GROUND - 2
   numCoins = 22

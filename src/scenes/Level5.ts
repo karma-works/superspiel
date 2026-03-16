@@ -18,6 +18,7 @@ export class Level5 extends LevelScene {
   levelName = 'Level 5: Sky Islands'
   bgTheme = 'sky' as const
   nextLevelKey = 'level6'
+  prevLevelKey = 'level4'
   startTileX = 2
   startTileY = GROUND - 2
   numCoins = 25

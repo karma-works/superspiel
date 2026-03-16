@@ -18,6 +18,7 @@ export class Level3 extends LevelScene {
   levelName = 'Level 3: Winter Frost'
   bgTheme = 'winter' as const
   nextLevelKey = 'level4'
+  prevLevelKey = 'level2'
   startTileX = 2
   startTileY = GROUND - 2
   numCoins = 20
