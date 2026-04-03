@@ -2,6 +2,7 @@ import * as ex from 'excalibur'
 import { PLAYER_SPEED, PLAYER_JUMP_VELOCITY, RESPAWN_DELAY_MS, DROWNING_TIME_MS } from '../config'
 import { drawPlayer, drawPlayerJump, drawPlayerFly, drawPlayerSkate, drawStar } from '../graphics/sprites'
 import { Fireball } from './Fireball'
+import { TouchInputManager } from '../input/TouchInputManager'
 
 export const VEHICLE_TAG = 'vehicle'
 export const PLAYER_TAG_CONST = 'player'
@@ -104,6 +105,7 @@ export class Player extends ex.Actor {
     if (this.isRespawning) return
 
     const kb = engine.input.keyboard
+    const touch = TouchInputManager.instance
 
     if (this.isDrowning) {
       this.drowningTimer += delta
@@ -115,9 +117,9 @@ export class Player extends ex.Actor {
 
     if (this.isOnVehicle) {
       const isAirplane = this.currentVehicle?.tags.has('airplane')
-      if (!isAirplane && (kb.isHeld(ex.Keys.Up) || kb.isHeld(ex.Keys.Space))) {
+      if (!isAirplane && (kb.isHeld(ex.Keys.Up) || kb.isHeld(ex.Keys.Space) || touch.jumpJustPressed)) {
         this.dismountVehicle()
-      } else if (isAirplane && kb.wasPressed(ex.Keys.Space)) {
+      } else if (isAirplane && (kb.wasPressed(ex.Keys.Space) || touch.jumpJustPressed)) {
         this.dismountVehicle()
       }
       return
@@ -125,11 +127,11 @@ export class Player extends ex.Actor {
 
     // Horizontal movement
     let moving = false
-    if (kb.isHeld(ex.Keys.ArrowLeft) || kb.isHeld(ex.Keys.A)) {
+    if (kb.isHeld(ex.Keys.ArrowLeft) || kb.isHeld(ex.Keys.A) || touch.leftHeld) {
       this.vel.x = -PLAYER_SPEED
       this.facingRight = false
       moving = true
-    } else if (kb.isHeld(ex.Keys.ArrowRight) || kb.isHeld(ex.Keys.D)) {
+    } else if (kb.isHeld(ex.Keys.ArrowRight) || kb.isHeld(ex.Keys.D) || touch.rightHeld) {
       this.vel.x = PLAYER_SPEED
       this.facingRight = true
       moving = true
@@ -143,15 +145,17 @@ export class Player extends ex.Actor {
     }
 
     // ── Jump & Fly ────────────────────────────────────────────────────────────
-    if (kb.wasPressed(ex.Keys.ArrowUp) || kb.wasPressed(ex.Keys.Space) || kb.wasPressed(ex.Keys.W)) {
+    const jumpPressed = kb.wasPressed(ex.Keys.ArrowUp) || kb.wasPressed(ex.Keys.Space) || kb.wasPressed(ex.Keys.W) || touch.jumpJustPressed
+    const airActionPressed = jumpPressed || touch.swipeUpJustPressed
+    if (jumpPressed && this.isOnGround) {
+      // Normal jump — becomes eligible for air-jump
+      this._jumpBuffer = Player.JUMP_BUFFER_MS
+      this._airJumpAvailable = true
+    } else if (airActionPressed) {
       if (this.isFlying) {
         // Flap upward while flying
         this.vel.y = -130
-      } else if (this.isOnGround) {
-        // Normal jump — becomes eligible for air-jump
-        this._jumpBuffer = Player.JUMP_BUFFER_MS
-        this._airJumpAvailable = true
-      } else if (this._airJumpAvailable) {
+      } else if (this._airJumpAvailable && !this.isOnGround) {
         // Air jump → enter fly mode (Kirby puff)
         this._airJumpAvailable = false
         this.isFlying = true
@@ -177,8 +181,8 @@ export class Player extends ex.Actor {
       if (this.vel.y > 60) this.vel.y = 60   // cap sink speed
       if (this.vel.y < -200) this.vel.y = -200
 
-      // ↓ or S to deflate
-      if (kb.isHeld(ex.Keys.ArrowDown) || kb.isHeld(ex.Keys.S)) {
+      // ↓ or S or swipe down to deflate
+      if (kb.isHeld(ex.Keys.ArrowDown) || kb.isHeld(ex.Keys.S) || touch.swipeDownJustPressed) {
         this._endFlight()
       }
 
@@ -191,7 +195,7 @@ export class Player extends ex.Actor {
     }
 
     // Fire
-    if ((kb.wasPressed(ex.Keys.Z) || kb.wasPressed(ex.Keys.X)) && this.fireballCooldown <= 0) {
+    if ((kb.wasPressed(ex.Keys.Z) || kb.wasPressed(ex.Keys.X) || touch.shootJustPressed) && this.fireballCooldown <= 0) {
       this.fireballCooldown = 300
       const fireOffset = this.facingRight ? ex.vec(12, -4) : ex.vec(-12, -4)
       const fireball = new Fireball(this.pos.add(fireOffset), this.facingRight)

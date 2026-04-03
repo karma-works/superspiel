@@ -1,6 +1,7 @@
 import * as ex from 'excalibur'
 import { drawRocket } from '../../graphics/sprites'
 import { Player, VEHICLE_TAG } from '../Player'
+import { TouchInputManager } from '../../input/TouchInputManager'
 
 export class Rocket extends ex.Actor {
   private boardedPlayer: Player | null = null
@@ -53,17 +54,18 @@ export class Rocket extends ex.Actor {
     }
 
     const kb = engine.input.keyboard
+    const touch = TouchInputManager.instance
 
-    if (kb.isHeld(ex.Keys.ArrowLeft) || kb.isHeld(ex.Keys.A)) {
+    if (kb.isHeld(ex.Keys.ArrowLeft) || kb.isHeld(ex.Keys.A) || touch.leftHeld) {
       this.vel.x = -this.speedH
-    } else if (kb.isHeld(ex.Keys.ArrowRight) || kb.isHeld(ex.Keys.D)) {
+    } else if (kb.isHeld(ex.Keys.ArrowRight) || kb.isHeld(ex.Keys.D) || touch.rightHeld) {
       this.vel.x = this.speedH
     } else {
       this.vel.x *= 0.88
       if (Math.abs(this.vel.x) < 3) this.vel.x = 0
     }
 
-    if (kb.isHeld(ex.Keys.ArrowUp) || kb.isHeld(ex.Keys.W)) {
+    if (kb.isHeld(ex.Keys.ArrowUp) || kb.isHeld(ex.Keys.W) || touch.upperHeld) {
       this.vel.y = -this.speedV
     } else if (kb.isHeld(ex.Keys.ArrowDown) || kb.isHeld(ex.Keys.S)) {
       this.vel.y = this.speedV

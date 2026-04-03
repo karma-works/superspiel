@@ -12,6 +12,7 @@ import { Level8 } from './scenes/Level8'
 import { Level9 } from './scenes/Level9'
 import { Level10 } from './scenes/Level10'
 import { startMusic } from './music'
+import { TouchInputManager } from './input/TouchInputManager'
 
 const game = new ex.Engine({
   width: 800,
@@ -48,3 +49,6 @@ const startScene = levelParam && validLevels.includes(levelParam)
 game.goToScene(startScene)
 game.start()
 startMusic()
+
+// Reset one-frame touch pulses after every game update so all actors see them exactly once
+game.on('postupdate', () => TouchInputManager.instance.resetFrameState())

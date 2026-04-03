@@ -1,6 +1,7 @@
 import * as ex from 'excalibur'
 import { CoinTracker } from '../systems/CoinTracker'
 import { Player } from '../actors/Player'
+import { TouchInputManager } from '../input/TouchInputManager'
 
 export class HUD extends ex.ScreenElement {
   private coinTracker: CoinTracker
@@ -8,6 +9,9 @@ export class HUD extends ex.ScreenElement {
   private levelName: string
   private showGateMessage: boolean = false
   private gateFlash: number = 0
+  private _zoneOverlayTimer: number = 0
+  private static readonly ZONE_OVERLAY_SHOW_MS = 1500
+  private static readonly ZONE_OVERLAY_FADE_MS = 500
 
   constructor(coinTracker: CoinTracker, player: Player, levelName: string) {
     super()
@@ -27,6 +31,7 @@ export class HUD extends ex.ScreenElement {
 
   onPreUpdate(_engine: ex.Engine, delta: number): void {
     this.gateFlash += delta
+    this._zoneOverlayTimer += delta
   }
 
   onPostDraw(ctx: ex.ExcaliburGraphicsContext, _delta: number): void {
@@ -65,6 +70,11 @@ export class HUD extends ex.ScreenElement {
 
     // Bottom controls bar
     this.drawControlsBar(ctx, W, H)
+
+    // Touch zone overlay — shown briefly at level start on touch devices
+    if (TouchInputManager.instance.isTouchDevice) {
+      this.drawTouchZoneOverlay(ctx, W, H)
+    }
 
     // Drowning indicator
     if (this.player.isDrowning) {
@@ -117,20 +127,25 @@ export class HUD extends ex.ScreenElement {
   }
 
   private drawControlsBar(ctx: ex.ExcaliburGraphicsContext, W: number, H: number): void {
-    const controls = [
-      { key: '← →', desc: 'Move' },
-      { key: '↑ Space', desc: 'Jump/Fly' },
-      { key: '↓', desc: 'Deflate' },
-      { key: 'Z X', desc: 'Fire' },
-    ]
+    const isTouch = TouchInputManager.instance.isTouchDevice
+    const controls = isTouch
+      ? [
+          { key: 'Tap ▲', desc: 'Jump' },
+          { key: 'Swipe ↑', desc: 'Fly' },
+          { key: 'Swipe ↓', desc: 'Deflate' },
+          { key: '2-finger', desc: 'Fire' },
+        ]
+      : [
+          { key: '← →', desc: 'Move' },
+          { key: '↑ Space', desc: 'Jump/Fly' },
+          { key: '↓', desc: 'Deflate' },
+          { key: 'Z X', desc: 'Fire' },
+        ]
     const padY = 5
     const barH = 22
     const barY = H - barH - 4
-    // Background
     ctx.drawRectangle(ex.vec(0, barY - padY), W, barH + padY * 2, ex.Color.fromRGB(0, 0, 0, 140))
-    // Controls text
-    const totalItems = controls.length
-    const slotW = W / totalItems
+    const slotW = W / controls.length
     for (let i = 0; i < controls.length; i++) {
       const cx = i * slotW + slotW / 2
       const label = `${controls[i].key}: ${controls[i].desc}`
@@ -139,15 +154,50 @@ export class HUD extends ex.ScreenElement {
     }
   }
 
-  private drawLabel(ctx: ex.ExcaliburGraphicsContext, text: string, x: number, y: number, color: string, size: number = 14): void {
+  private drawTouchZoneOverlay(ctx: ex.ExcaliburGraphicsContext, W: number, H: number): void {
+    const total = HUD.ZONE_OVERLAY_SHOW_MS + HUD.ZONE_OVERLAY_FADE_MS
+    if (this._zoneOverlayTimer >= total) return
+    const baseAlpha = this._zoneOverlayTimer < HUD.ZONE_OVERLAY_SHOW_MS
+      ? 1
+      : 1 - (this._zoneOverlayTimer - HUD.ZONE_OVERLAY_SHOW_MS) / HUD.ZONE_OVERLAY_FADE_MS
+    const a = Math.max(0, baseAlpha)
+
+    const midX = W / 2
+    const midY = H / 2
+
+    const textCol = ex.Color.fromRGB(255, 255, 255, Math.round(a * 255))
+
+    // Upper zone
+    ctx.drawRectangle(ex.vec(0, 0), W, midY, ex.Color.fromRGB(100, 180, 255, Math.round(a * 40)))
+    this.drawLabel(ctx, 'Tap: Jump', midX - 36, midY / 2 - 22, textCol, 13)
+    this.drawLabel(ctx, 'Swipe \u2191: Fly', midX - 44, midY / 2 - 4, textCol, 13)
+    this.drawLabel(ctx, 'Swipe \u2193: Deflate', midX - 58, midY / 2 + 14, textCol, 13)
+    this.drawLabel(ctx, '2-finger: Fire', midX - 50, midY / 2 + 32, textCol, 13)
+
+    // Lower-left zone
+    ctx.drawRectangle(ex.vec(0, midY), midX, midY, ex.Color.fromRGB(80, 255, 120, Math.round(a * 35)))
+    this.drawLabel(ctx, '\u25c4', midX / 2 - 8, midY + midY / 2 - 10, textCol, 22)
+
+    // Lower-right zone
+    ctx.drawRectangle(ex.vec(midX, midY), midX, midY, ex.Color.fromRGB(80, 255, 120, Math.round(a * 35)))
+    this.drawLabel(ctx, '\u25ba', midX + midX / 2 - 8, midY + midY / 2 - 10, textCol, 22)
+
+    // Dividers
+    const lineColor = ex.Color.fromRGB(255, 255, 255, Math.round(a * 60))
+    ctx.drawRectangle(ex.vec(0, midY - 1), W, 2, lineColor)
+    ctx.drawRectangle(ex.vec(midX - 1, midY), 2, midY, lineColor)
+  }
+
+  private drawLabel(ctx: ex.ExcaliburGraphicsContext, text: string, x: number, y: number, color: string | ex.Color, size: number = 14): void {
+    const col = typeof color === 'string' ? ex.Color.fromHex(color) : color
     const t = new ex.Text({
       text,
-      color: ex.Color.fromHex(color),
+      color: col,
       font: new ex.Font({
         size,
         family: 'monospace',
         bold: true,
-        color: ex.Color.fromHex(color),
+        color: col,
       }),
     })
     t.draw(ctx, x, y)

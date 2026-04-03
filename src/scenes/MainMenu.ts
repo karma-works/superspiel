@@ -1,5 +1,6 @@
 import * as ex from 'excalibur'
 import { drawCoin } from '../graphics/sprites'
+import { TouchInputManager } from '../input/TouchInputManager'
 
 export class MainMenu extends ex.Scene {
   private bgTimer: number = 0
@@ -28,8 +29,9 @@ export class MainMenu extends ex.Scene {
     this.add(this.titleLabel)
 
     // Subtitle
+    const isTouch = TouchInputManager.instance.isTouchDevice
     this.subtitleLabel = new ex.Label({
-      text: 'Press SPACE or ENTER to play!',
+      text: isTouch ? 'Tap to play!' : 'Press SPACE or ENTER to play!',
       pos: ex.vec(engine.drawWidth / 2, engine.drawHeight / 2 + 20),
       font: new ex.Font({
         size: 18,
@@ -86,7 +88,8 @@ export class MainMenu extends ex.Scene {
 
     // Start game
     const kb = engine.input.keyboard
-    if (kb.wasPressed(ex.Keys.Space) || kb.wasPressed(ex.Keys.Enter)) {
+    const touch = TouchInputManager.instance
+    if (kb.wasPressed(ex.Keys.Space) || kb.wasPressed(ex.Keys.Enter) || touch.anyJustPressed) {
       engine.goToScene('level1')
     }
   }

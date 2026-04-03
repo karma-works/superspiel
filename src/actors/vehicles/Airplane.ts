@@ -1,6 +1,7 @@
 import * as ex from 'excalibur'
 import { drawAirplane } from '../../graphics/sprites'
 import { Player, VEHICLE_TAG } from '../Player'
+import { TouchInputManager } from '../../input/TouchInputManager'
 
 export const AIRPLANE_TAG = 'airplane'
 
@@ -54,11 +55,12 @@ export class Airplane extends ex.Actor {
     }
 
     const kb = engine.input.keyboard
+    const touch = TouchInputManager.instance
 
     // Horizontal
-    if (kb.isHeld(ex.Keys.ArrowLeft) || kb.isHeld(ex.Keys.A)) {
+    if (kb.isHeld(ex.Keys.ArrowLeft) || kb.isHeld(ex.Keys.A) || touch.leftHeld) {
       this.vel.x = -this.speed
-    } else if (kb.isHeld(ex.Keys.ArrowRight) || kb.isHeld(ex.Keys.D)) {
+    } else if (kb.isHeld(ex.Keys.ArrowRight) || kb.isHeld(ex.Keys.D) || touch.rightHeld) {
       this.vel.x = this.speed
     } else {
       this.vel.x *= 0.88
@@ -66,7 +68,7 @@ export class Airplane extends ex.Actor {
     }
 
     // Vertical (Up = climb, Down = dive)
-    if (kb.isHeld(ex.Keys.ArrowUp) || kb.isHeld(ex.Keys.W)) {
+    if (kb.isHeld(ex.Keys.ArrowUp) || kb.isHeld(ex.Keys.W) || touch.upperHeld) {
       this.vel.y = -this.speed
     } else if (kb.isHeld(ex.Keys.ArrowDown) || kb.isHeld(ex.Keys.S)) {
       this.vel.y = this.speed
