@@ -89,6 +89,9 @@ export class Player extends ex.Actor {
   }
 
   onPreUpdate(engine: ex.Engine, delta: number): void {
+    // Always derive isOnGround from active contacts so onPostUpdate velocity
+    // checks can't leave it permanently false while contacts are still live.
+    this.isOnGround = this._groundContacts.size > 0
     this._invincibleTimer = Math.max(0, this._invincibleTimer - delta)
     this.fireballCooldown = Math.max(0, this.fireballCooldown - delta)
     this._jumpBuffer = Math.max(0, this._jumpBuffer - delta)
@@ -228,7 +231,8 @@ export class Player extends ex.Actor {
   }
 
   onPostUpdate(_engine: ex.Engine, _delta: number): void {
-    if (!this.isFlying && Math.abs(this.vel.y) > 8) this.isOnGround = false
+    // isOnGround is now derived from _groundContacts at the top of onPreUpdate;
+    // no extra clearing needed here.
   }
 
   /** Called by hazards and enemies when the player is damaged. */
